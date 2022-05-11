@@ -17,9 +17,9 @@ const baseUrl = 'http://localhost:5000';
 export default {
 	name: "ResidentSection",
 	data: function () {
-	return {
-		savedResidents: [],
-	};
+        return {
+            savedResidents: [],
+        };
 	},
 	props: {},
 	components: { 
@@ -33,7 +33,7 @@ export default {
             this.getResidents();
 		},
 		removeResident: async function ($event) {
-            await axios.delete(baseUrl + '/delete-user', {data: { id: $event[0]}});
+            await axios.delete(baseUrl + '/delete-user', {data: { id: $event }});
 
             this.getResidents();
                 

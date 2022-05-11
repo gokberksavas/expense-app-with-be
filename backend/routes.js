@@ -48,9 +48,13 @@ app.get('/tickets', async (request, response) => {
 
 app.delete('/delete-user', async (request, response) => {
     try {
+        const deletedUser = await userModel.findById(request.body.id);
         await userModel.findByIdAndDelete(request.body.id);
 
-        response.send('User deleted');
+        response.send({
+            message: 'User Deleted',
+            user: deletedUser
+        });
     } catch (err) {
         response.status(500).send(err);
     }

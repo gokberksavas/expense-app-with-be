@@ -6,19 +6,18 @@
     >   
         <div class="border border-1 p-2 rounded rounded-2 shadow-sm">
             <h5 class="font-weight-bold">Resident List</h5>
-            <b-form-checkbox-group>
-                <b-form-checkbox 
+            <b-form-group>
+                <b-form-radio 
                     v-for="resident in savedResidents" 
                     :key="resident._id" 
-                    v-model="checkedList" 
+                    v-model="checked" 
                     :value="resident._id"
-                    :resident-id="resident._id"
                     class="inline d-flex align-items-center"
                 >            
                     {{ resident.name }}
-                </b-form-checkbox>
-            </b-form-checkbox-group>
-            <div class="action-buttons-wrapper" v-if="checkedList.length > 0">
+                </b-form-radio>
+            </b-form-group>
+            <div class="action-buttons-wrapper" v-if="checked">
                 <b-button
                     variant="danger" 
                     size="sm"
@@ -37,7 +36,7 @@
                 </b-button>
             </div>
         </div>
-        <TicketModal :resident="checkedList[0]"/>
+        <TicketModal v-if="checked" :resident="getResidentName"/>
     </b-container>
 </template>
 
@@ -49,7 +48,7 @@ export default {
     name: 'ResidentList',
     data: function () {
         return {
-            checkedList: [],
+            checked: '',
         }
     },
     components: {
@@ -58,11 +57,20 @@ export default {
     props: {
         savedResidents: Array,
     },
+    computed: {
+        getResidentName: function () {
+            let resident = this.savedResidents.find(resident => {
+                return resident._id === this.checked;
+            });
+
+            return resident.name;
+        }
+    },  
     methods: {
         removeResident: function () {
-            this.$emit('resident-removed', this.checkedList);
+            this.$emit('resident-removed', this.checked);
 
-            this.checkedList = [];
+            this.checked = '';
         }
     }
 }
