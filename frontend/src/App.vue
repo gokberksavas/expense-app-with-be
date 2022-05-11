@@ -17,7 +17,3 @@ export default {
   }
 }
 </script>
-
-
-vue.component(template: '')
-Vue.createApp(el: '#app')
